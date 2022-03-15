@@ -1,0 +1,19 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea
+.classpath
+.project
+.settings
+dist
+*.iml
+target
+.metadata
+dist
+node_modules
+*.log
+shop-common/src/main/resources/
+shop-common/src/test/
+shop-domain/src/main/resources/
+shop-domain/src/test/
+shop-web/src/test/resources/
+.DS_Store
+
