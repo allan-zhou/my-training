@@ -12,17 +12,27 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class TryCatchTest {
     @Test
-    public void TryCatchTest_1() {
-
-        System.out.println(myTry("apple"));
-
-        System.out.println(myTry("banana"));
-
+    public void test1() {
+        System.out.println(tryMethod("apple"));
     }
 
-    private String myTry(String str) {
-        try {
+    @Test
+    public void test2(){
+        System.out.println(tryMethod("banana"));
+    }
 
+    /**
+     *
+     * 通过查看字节码：
+     * 在该方法中【所有代码路径】中，共3条路径，均增加了finally代码块；
+     *
+     * —— 这就是为什么try-catch一定执行finally的原因
+     *
+     * @param str
+     * @return
+     */
+    private String tryMethod(String str) {
+        try {
             if(str.equals("banana")) {
                 throw new Exception("异常了");
             }
@@ -36,7 +46,6 @@ public class TryCatchTest {
         } finally {
 
             System.out.println(str + " always done。");
-
         }
     }
 }
