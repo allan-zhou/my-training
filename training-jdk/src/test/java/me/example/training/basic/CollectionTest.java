@@ -2,6 +2,7 @@ package me.example.training.basic;
 
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -152,5 +153,19 @@ public class CollectionTest {
         }
 
         log.info("list size={}", list.size());
+    }
+
+    /**
+     *  集合判空
+     */
+    @Test
+    public void emptyTest(){
+
+        List<String> list = new ArrayList<>();
+
+        boolean ret = CollectionUtils.isEmpty(list);
+
+        log.info("empty={}, size={}",ret, list.size());
+
     }
 }
