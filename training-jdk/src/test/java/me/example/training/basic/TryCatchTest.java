@@ -2,6 +2,7 @@ package me.example.training.basic;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
+import org.junit.jupiter.api.parallel.Execution;
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
@@ -19,6 +20,11 @@ public class TryCatchTest {
     @Test
     public void test2(){
         System.out.println(tryMethod("banana"));
+    }
+
+    @Test
+    public void test3(){
+        System.out.println(tryMethod2());
     }
 
     /**
@@ -47,5 +53,22 @@ public class TryCatchTest {
 
             System.out.println(str + " always done。");
         }
+    }
+
+    private String tryMethod2() {
+
+        try {
+
+            System.out.println("try block.");
+            return "try";
+
+        } catch (Exception e) {
+
+            System.out.println("catch block");
+        }
+
+        // 此处代码执行不到
+        System.out.println("outside block");
+        return "outside.";
     }
 }
