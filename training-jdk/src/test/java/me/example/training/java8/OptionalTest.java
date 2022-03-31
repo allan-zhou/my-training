@@ -1,4 +1,4 @@
-package me.shop.web.java8;
+package me.example.training.java8;
 
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
