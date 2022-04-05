@@ -22,6 +22,8 @@ public class LockTest {
         Runnable task = () -> {
             for (int i = 0; i < incCount; i++) {
                 myAdd.increase();
+                myAdd.increase2();
+                myAdd.increase3();
             }
             latch.countDown();
 
@@ -31,16 +33,29 @@ public class LockTest {
         for (int i = 0; i < threadNum; i++) {
             Thread thread = new Thread(task);
             thread.start();
+        }
 
-            log.info("thread-" + i + ", 启动");
+        for (int i = 0; i < threadNum; i++) {
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    log.info(Thread.currentThread().getName() + "读取到的volatile的值是：{}", myAdd.getTotal3());
+                }
+            });
+            thread.start();
         }
 
         try {
             latch.await();
 
-            log.info("total={}", myAdd.getTotal());
-
+            log.info("total = {}", myAdd.getTotal());
             log.info("差距={}", incCount * threadNum - myAdd.getTotal());
+
+            log.info("total2 = {}", myAdd.getTotal2());
+            log.info("差距={}", incCount * threadNum - myAdd.getTotal2());
+
+            log.info("total3 = {}", myAdd.getTotal3());
+            log.info("差距={}", incCount * threadNum - myAdd.getTotal3());
 
         } catch (Exception e) {
 
