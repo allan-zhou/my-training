@@ -2,6 +2,8 @@ package me.example.training.test.thread;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -21,16 +23,21 @@ public class ThreadTest {
 
         CountDownLatch latch = new CountDownLatch(1);
 
+        List<MyWorker> workerList = new ArrayList<>();
+
         Object monitor = new Object();
         try {
 
-            MyWorker a = new MyWorker("A", true, monitor );
-            MyWorker b = new MyWorker("B", false, monitor);
+            MyWorker a = new MyWorker(true, monitor ,workerList);
+            MyWorker b = new MyWorker(false, monitor, workerList);
+
+            workerList.add(a);
+            workerList.add(b);
+
+            a.setName("A");
+            b.setName("B");
             a.start();
             b.start();
-
-            log.info("A的状态是：{}", a.getState().name());
-            log.info("B的状态是：{}", b.getState().name());
 
             latch.await();
 

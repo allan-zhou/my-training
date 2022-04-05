@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 
 
 /**
+ * 使用join实现线程同步
+ *
  * @author zhoujialiang9
  * @date 2022/4/2 2:33 PM
  **/
