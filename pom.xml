@@ -10,6 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>training-jdk</module>
+        <module>training-framework</module>
     </modules>
 
     <dependencyManagement>
