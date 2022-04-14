@@ -7,7 +7,6 @@ dist
 *.iml
 target
 .metadata
-dist
 node_modules
 *.log
 shop-common/src/main/resources/
@@ -17,3 +16,7 @@ shop-domain/src/test/
 shop-web/src/test/resources/
 .DS_Store
 
+$java
+com/sun/proxy
+me/example/training/test/proxy
+org/springframework/cglib
