@@ -168,4 +168,15 @@ public class CollectionTest {
         log.info("empty={}, size={}",ret, list.size());
 
     }
+
+    @Test
+    public void linkedListTest(){
+        LinkedList<String> linkedList = new LinkedList<>();
+        linkedList.add("a");
+        linkedList.add("b");
+        linkedList.add("c");
+
+        log.info(linkedList.get(0));
+
+    }
 }
