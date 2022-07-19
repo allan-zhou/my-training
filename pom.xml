@@ -12,6 +12,7 @@
         <module>training-jdk</module>
         <module>training-framework</module>
         <module>training-designpattern</module>
+        <module>training-spring</module>
     </modules>
 
     <dependencyManagement>
@@ -40,6 +41,11 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>23.0</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>5.8.4</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -6,10 +6,28 @@ import me.example.training.domain.TestUser;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+import java.util.stream.Stream;
 
 /**
+ *
+ * 数据结构：逻辑结构、存储结构
+ * 逻辑结构种类：4种。集合、线性表、树、图
+ * 存储结构种类：2种。顺序存储、链式存储
+ *
+ * 逻辑结构分类方式二：线性结构、非线性结构
+ * 线性结构：线性表——>1、一般的线性表（单链表、双向链表、等） 2、特殊的线性表（栈、队列、字符串） 3、线性表的推广（数组、广义表）
+ * 非线性结构：树结构、图结构
+ * 树结构：树、二叉树
+ * 图结构：有向图、无向图
+ *
+ * 结点（Node）：由数据域、指针域组成。
+ * 单链表：node只有一个指针域。
+ * 双向链表：node有两个指针域。如：LinkedList
+ * 循环链表：
+ *
+ *
  * @author zhoujialiang9
  * @date 2022/6/20 15:45
  **/
@@ -31,7 +49,7 @@ public class ListTest {
      *
      * *** fastRemove :
      *
-     * ### 更新数据，O(1)
+     * ### 更新数据，时间复杂度O(1)
      * - set(int index, E element)
      *
      */
@@ -113,4 +131,96 @@ public class ListTest {
         users2[0].setName("A");
         log.info("src={} dest={}", JSON.toJSONString(users), JSON.toJSONString(users2));
     }
+
+    /**
+     * 获取、查找方法的【时间复杂度】 差异
+     *
+     * ArrayList：O(1)
+     * LinkedList：最差场景场景需要遍历集合一半的元素
+     */
+    @Test
+    public void test3(){
+       List<String> arrayList = Arrays.asList("a","b","c","d","e");
+
+       int index = 1;
+       // 时间：O(1)
+       log.info("index={}, data={}", index,  arrayList.get(index));
+
+       index = 2;
+       List<String> linkedList = new LinkedList<String>(arrayList);
+       // 时间：O(2/n)，最差场景场景需要遍历集合一半的元素
+       log.info("index={}, data={}", index,  linkedList.get(index));
+
+    }
+
+    /**
+     * LinkedList实现了Deque，具有双端队列的能力
+     *
+     * Queue:队列，FIFO
+     */
+    @Test
+    public void test4(){
+        List<String> arrayList = Arrays.asList("a","b","c","d","e");
+        LinkedList<String> linkedList = new LinkedList<>(arrayList);
+
+        linkedList.offer("BEIJING");
+        linkedList.offerFirst("start");
+        linkedList.offerLast("end");
+
+        log.info("linkedList data={}", JSON.toJSONString(linkedList));
+
+        log.info("poll, data={}", linkedList.poll());
+
+        log.info("linkedList data={}", JSON.toJSONString(linkedList));
+    }
+
+    /**
+     * Stack ，LIFO
+     */
+    @Test
+    public void test5(){
+        Stack<String> stringStack = new Stack<>();
+        stringStack.push("a");
+        stringStack.push("b");
+
+        log.info("Stack ={}", JSON.toJSONString(stringStack));
+
+        log.info("pop data={}", stringStack.pop());
+
+        log.info("Stack ={}", JSON.toJSONString(stringStack));
+    }
+
+    /**
+     * String
+     * @see StringBuilder
+     * @see StringBuffer
+     *
+     */
+    @Test
+    public void test6(){
+        String str = "abcABC中国";
+
+        // 英文占1个字节。中文占3个字节。
+        byte[] bytes = str.getBytes(StandardCharsets.UTF_8);
+        log.info("str={}, byte len={}", str, bytes.length);
+
+        // Unicode 码点
+        log.info("码点个数：{} ，字符串长度：{}", str.codePoints().peek(i-> log.info("{}", i)).count(), str.length());
+
+        char[] chars = str.toCharArray();
+        Stream.of(chars).peek(i -> {
+            log.info("{} {}", i, i.getClass().getCanonicalName());
+        }).forEach(i->{
+            log.info("element={} type={}", i, i.getClass().getCanonicalName());
+        });
+
+        // intern方法
+        String str2 = new String("abcABC") + "中国";
+        log.info("{}", str == str2);
+        log.info("{}", str.equals(str2));
+        log.info("{}", str.intern() == str2.intern());
+
+    }
+
+
 }
