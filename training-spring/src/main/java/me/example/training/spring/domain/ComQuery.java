@@ -11,4 +11,5 @@ import lombok.Setter;
 @Setter
 public class ComQuery {
     private String key;
+    private Integer num;
 }

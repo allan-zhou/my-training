@@ -1,4 +1,4 @@
-package me.example.training.threadpool;
+package me.example.training.juc;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -10,14 +10,11 @@ import java.util.concurrent.*;
 /**
  *
  * @see ThreadPoolExecutor
- * 
- * 内置的 4 种线程池：
- * @see Executors#newCachedThreadPool() 
- * @see Executors#newFixedThreadPool(int) 
- * @see Executors#newSingleThreadExecutor()
- * @see Executors#newScheduledThreadPool(int) 
  *
- *
+ * A、为什么需要线程池？
+ * B、如何创建一个线程池？线程池有哪些种类？
+ * C、线程池的核心参数有哪些？
+ * D、线程池的实现原理，如何实现？
  *
  * @description:
  * @author: zhoujialiang9

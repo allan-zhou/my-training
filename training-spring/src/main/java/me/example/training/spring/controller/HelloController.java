@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import me.example.training.spring.domain.ComQuery;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,18 +20,21 @@ import javax.servlet.http.HttpServletRequest;
 public class HelloController {
 
     @RequestMapping("/hello")
-    public String hello(HttpServletRequest request, ComQuery comQuery){
+    public String hello(HttpServletRequest request,ComQuery comQuery){
 
-        log.info("query={}", JSON.toJSONString(comQuery));
+        log.info("request.getParameter key={}", request.getParameter("key"));
 
-        if(StringUtils.isNotBlank(comQuery.getKey())) {
-            log.info("key={}, origin key={}", comQuery.getKey(), StringUtils.replaceChars(comQuery.getKey(), " ", "+"));
-        }
+        log.info("comQuery={}", JSON.toJSONString(comQuery));
 
-        if(StringUtils.isNotBlank(request.getParameter("key"))) {
-            log.info("key={}, origin key={}", request.getParameter("key"), StringUtils.replaceChars(request.getParameter("key"), " ", "+"));
-        }
+        return JSON.toJSONString(comQuery);
+    }
 
+    @RequestMapping("/hello2")
+    public String hello2(HttpServletRequest request,@RequestBody ComQuery comQuery){
+
+        log.info("request.getParameter key={}", request.getParameter("key"));
+
+        log.info("comQuery={}", JSON.toJSONString(comQuery));
 
         return JSON.toJSONString(comQuery);
     }

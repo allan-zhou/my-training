@@ -1,9 +1,13 @@
 package me.example.training.basic;
 
+import cn.hutool.core.codec.Base64;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author zhoujialiang9
@@ -13,17 +17,23 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class StringTest {
 
-    private final static String BUSINESS_ID_PREFIX = "16-796-3121-2305-";
-
     @Test
     public void test1(){
-        String str="16-796-3121-2305-86022";
+
+        List<String> stringList = new ArrayList<>();
+        stringList.add("ABC&% + /a");
 
 
-        log.info("{}", str.substring(0, str.lastIndexOf("-") + 1).equals(BUSINESS_ID_PREFIX));
+        List<String> stringList2 = stringList.stream().map(item->{
+            log.info("encode       ={}", Base64.encode(item));
+            log.info("encodeUrlSafe={}", Base64.encodeUrlSafe(item));
+            log.info("===========");
+            return Base64.encodeUrlSafe(item);
+        }).collect(Collectors.toList());
 
-        log.info("{}", str.contains(BUSINESS_ID_PREFIX));
 
-        log.info("{}", StringUtils.contains(str, BUSINESS_ID_PREFIX));
+        stringList2.forEach(item->{
+            log.info("decodeStr={}", Base64.decodeStr(item));
+        });
     }
 }

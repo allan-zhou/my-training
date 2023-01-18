@@ -16,10 +16,13 @@ public class Parent {
 
     public Parent(){
         this.name = "parent";
+
+        log.info("Parent - class loader name={}", this.getClass().getClassLoader().getClass().getSimpleName());
+
     }
 
     public void say(){
-        log.info("i am parent");
+        log.info("i am parent. name={}", name);
     }
 
 }

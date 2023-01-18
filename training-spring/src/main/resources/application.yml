@@ -1,0 +1,9 @@
+thread.pool:
+  instances:
+    - name: threadpool1
+      corePoolSize: 2
+      maxPoolSize: 10
+    - name: threadpool2
+      corePoolSize: 2
+      maxPoolSize: 10
+

@@ -16,9 +16,13 @@ public class Child extends Parent {
 
     public Child(){
         this.name = "child";
+
+        ClassLoader classLoader = this.getClass().getClassLoader();
+        log.info("Child- class loader name={}", classLoader.getClass().getCanonicalName());
+        log.info("Child- class loader name={}", classLoader.getParent().getClass().getCanonicalName());
     }
 
     public void say(){
-        log.info("i am Child.");
+        log.info("i am Child. name={}", name);
     }
 }

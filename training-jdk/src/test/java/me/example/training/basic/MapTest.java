@@ -1,11 +1,20 @@
 package me.example.training.basic;
 
+import cn.hutool.core.util.NumberUtil;
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
+import me.example.training.domain.TestUser;
+import me.example.training.domain.User;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  *
@@ -152,6 +161,17 @@ public class MapTest {
 
     @Test
     public void mapTest3(){
+
+        List<String> stringList = new ArrayList<>();
+
+        for (int i = 0; i < 5; i++) {
+            stringList.add(String.valueOf(i));
+        }
+
+        //stringList.add("abc");
+
+        log.info("result={}", !stringList.stream().allMatch(it-> NumberUtil.isNumber(it)));
+
 
     }
 
