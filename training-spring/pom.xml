@@ -18,6 +18,17 @@
 
 
     <dependencies>
+        <!--   内部     -->
+        <dependency>
+            <groupId>me.example</groupId>
+            <artifactId>training-domain</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>me.example</groupId>
+            <artifactId>training-spi</artifactId>
+        </dependency>
+
+        <!--   tools     -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -42,6 +53,7 @@
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
         </dependency>
+
         <!--   spring     -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -52,5 +64,12 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!--   mysql     -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
     </dependencies>
 </project>

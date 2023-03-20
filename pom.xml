@@ -12,10 +12,25 @@
         <module>training-jdk</module>
         <module>training-designpattern</module>
         <module>training-spring</module>
+        <module>training-spi</module>
+        <module>training-domain</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
+            <!--   内部     -->
+            <dependency>
+                <groupId>me.example</groupId>
+                <artifactId>training-domain</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>me.example</groupId>
+                <artifactId>training-spi</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+            <!--   工具     -->
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
@@ -65,7 +80,12 @@
                 <version>2.3.5.RELEASE</version>
                 <scope>test</scope>
             </dependency>
-
+            <!--   mysql     -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>8.0.32</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <!-- 插件管理 -->
