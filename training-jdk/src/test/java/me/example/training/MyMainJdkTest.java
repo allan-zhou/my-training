@@ -16,7 +16,7 @@ import java.util.stream.Stream;
  */
 @Slf4j
 @SpringBootTest
-public class MainJdkTest {
+public class MyMainJdkTest {
     @Test
     public void test1() {
 

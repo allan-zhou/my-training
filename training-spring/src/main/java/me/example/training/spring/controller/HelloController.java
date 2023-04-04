@@ -1,10 +1,10 @@
 package me.example.training.spring.controller;
 
-import cn.hutool.core.util.URLUtil;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
-import me.example.training.spring.domain.ComQuery;
-import org.apache.commons.lang3.StringUtils;
+import me.example.training.spring.domain.convert.ComConvert;
+import me.example.training.spring.domain.dto.ComDTO;
+import me.example.training.spring.domain.query.ComQuery;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +25,11 @@ public class HelloController {
         log.info("request.getParameter key={}", request.getParameter("key"));
 
         log.info("comQuery={}", JSON.toJSONString(comQuery));
+
+        // 转dto
+        ComDTO comDTO = ComConvert.INSTANCE.convert2ComDTO(comQuery);
+
+        log.info("comDTO={}", JSON.toJSONString(comDTO));
 
         return JSON.toJSONString(comQuery);
     }

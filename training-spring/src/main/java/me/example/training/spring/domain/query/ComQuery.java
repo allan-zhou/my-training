@@ -1,7 +1,9 @@
-package me.example.training.spring.domain;
+package me.example.training.spring.domain.query;
 
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serializable;
 
 /**
  * @author zhoujialiang9
@@ -9,7 +11,7 @@ import lombok.Setter;
  **/
 @Getter
 @Setter
-public class ComQuery {
+public class ComQuery implements Serializable {
     private String key;
     private Integer num;
 }

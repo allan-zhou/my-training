@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
  * @date 2022/6/13 8:20 PM
  **/
 @Slf4j
-public class Main {
+public class MyMain {
     public static void main(String[] args) {
 
         try {
@@ -18,7 +18,7 @@ public class Main {
             Child child = new Child();
             child.say();
 
-            log.info("class loader name={}", Main.class.getClass().getClassLoader().getClass().getSimpleName());
+            log.info("class loader name={}", MyMain.class.getClass().getClassLoader().getClass().getSimpleName());
 
 
 

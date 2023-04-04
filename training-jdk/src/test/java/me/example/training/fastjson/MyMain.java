@@ -13,7 +13,7 @@ import java.util.Arrays;
  **/
 @Slf4j
 @SpringBootTest
-public class Main {
+public class MyMain {
 
     /**
      * @see com.alibaba.fastjson.parser.Feature

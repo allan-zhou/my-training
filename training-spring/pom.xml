@@ -10,10 +10,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>training-spring</artifactId>
+    <packaging>jar</packaging>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
+        <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
     </properties>
 
 
@@ -53,7 +55,10 @@
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+        </dependency>
         <!--   spring     -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -72,4 +77,5 @@
         </dependency>
 
     </dependencies>
+
 </project>
