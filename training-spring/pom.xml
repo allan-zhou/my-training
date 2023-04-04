@@ -23,7 +23,7 @@
         <!--   内部     -->
         <dependency>
             <groupId>me.example</groupId>
-            <artifactId>training-domain</artifactId>
+            <artifactId>training-export</artifactId>
         </dependency>
         <dependency>
             <groupId>me.example</groupId>

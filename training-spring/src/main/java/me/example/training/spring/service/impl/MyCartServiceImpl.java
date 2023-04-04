@@ -1,8 +1,8 @@
 package me.example.training.spring.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import me.example.training.domain.inerface.CartExtService;
-import me.example.training.spring.service.CartExtServiceManager;
+import me.example.training.export.CartServiceExport;
+import me.example.training.spring.service.CartExportServiceManager;
 import me.example.training.spring.service.MyCartService;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ import javax.annotation.PostConstruct;
 @Service
 public class MyCartServiceImpl implements MyCartService{
 
-    CartExtService cartExtService = CartExtServiceManager.getFirsetCartExtService();
+    CartServiceExport cartExtService = CartExportServiceManager.getFirsetCartExtService();
 
     @PostConstruct
     private void init(){

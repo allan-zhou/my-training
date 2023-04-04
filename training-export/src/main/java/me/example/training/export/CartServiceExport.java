@@ -1,10 +1,10 @@
-package me.example.training.domain.inerface;
+package me.example.training.export;
 
 /**
  * @author zhoujialiang9
- * @date 2023/3/13 20:38
+ * @date 2023/4/4 14:37
  **/
-public interface CartExtService {
+public interface CartServiceExport {
     /**
      * 服务
      * @return

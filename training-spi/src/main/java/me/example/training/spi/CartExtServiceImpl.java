@@ -1,14 +1,14 @@
 package me.example.training.spi;
 
 import lombok.extern.slf4j.Slf4j;
-import me.example.training.domain.inerface.CartExtService;
+import me.example.training.export.CartServiceExport;
 
 /**
  * @author zhoujialiang9
  * @date 2023/3/13 20:41
  **/
 @Slf4j
-public class CartExtServiceImpl implements CartExtService {
+public class CartExtServiceImpl implements CartServiceExport {
     @Override
     public String getName() {
         String result = "Apple";

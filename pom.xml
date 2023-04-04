@@ -13,7 +13,7 @@
         <module>training-designpattern</module>
         <module>training-spring</module>
         <module>training-spi</module>
-        <module>training-domain</module>
+        <module>training-export</module>
     </modules>
 
     <properties>
@@ -27,7 +27,7 @@
             <!--   内部     -->
             <dependency>
                 <groupId>me.example</groupId>
-                <artifactId>training-domain</artifactId>
+                <artifactId>training-export</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
             <dependency>
@@ -35,7 +35,6 @@
                 <artifactId>training-spi</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
-
             <!--   工具     -->
             <dependency>
                 <groupId>org.projectlombok</groupId>
