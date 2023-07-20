@@ -1,13 +1,12 @@
 package me.example.training.basic;
 
-import cn.hutool.core.codec.Base64;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author zhoujialiang9
@@ -17,23 +16,17 @@ import java.util.stream.Collectors;
 @SpringBootTest
 public class StringTest {
 
+    List<String> stringList1 = new ArrayList<>();
+
     @Test
     public void test1(){
 
-        List<String> stringList = new ArrayList<>();
-        stringList.add("ABC&% + /a");
+        log.info("{}", StringUtils.joinWith(",",null, null));
 
+        stringList1.add("a");
+        stringList1.add("b");
 
-        List<String> stringList2 = stringList.stream().map(item->{
-            log.info("encode       ={}", Base64.encode(item));
-            log.info("encodeUrlSafe={}", Base64.encodeUrlSafe(item));
-            log.info("===========");
-            return Base64.encodeUrlSafe(item);
-        }).collect(Collectors.toList());
+        log.info("{}", StringUtils.joinWith(",",stringList1.get(0), stringList1.get(1)));
 
-
-        stringList2.forEach(item->{
-            log.info("decodeStr={}", Base64.decodeStr(item));
-        });
     }
 }

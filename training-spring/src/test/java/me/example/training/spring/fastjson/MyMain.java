@@ -1,4 +1,4 @@
-package me.example.training.fastjson;
+package me.example.training.spring.fastjson;
 
 import com.alibaba.fastjson.parser.Feature;
 import lombok.extern.slf4j.Slf4j;

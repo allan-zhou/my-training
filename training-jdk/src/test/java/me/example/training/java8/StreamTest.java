@@ -1,5 +1,6 @@
 package me.example.training.java8;
 
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import me.example.training.domain.User;
 import org.junit.Before;
@@ -8,6 +9,7 @@ import org.junit.platform.commons.util.StringUtils;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -229,7 +231,19 @@ public class StreamTest {
 
     @Test
     public void spliteratorTest(){
+        List<User> userList = new ArrayList<>();
+        userList.add(User.builder().id(1).name("a").type("aaa").build());
+        userList.add(User.builder().id(2).name("b").type("aaa").build());
+        userList.add(User.builder().id(3).name("c").type("bbb").build());
+        userList.add(User.builder().id(4).name("d").type("bbb").build());
 
+        Map<String, List<User>> map =userList.stream().collect(Collectors.groupingBy(User::getType));
+
+        map.entrySet().forEach(stringListEntry -> {
+
+            log.info("key={} value={}", stringListEntry.getKey(), JSON.toJSONString(stringListEntry.getValue()));
+
+        });
 
     }
 

@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.example.training.spring.domain.convert.ComConvert;
 import me.example.training.spring.domain.dto.ComDTO;
 import me.example.training.spring.domain.query.ComQuery;
+import me.example.training.spring.domain.vo.ResultVO;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,9 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 public class HelloController {
 
     @RequestMapping("/hello")
-    public String hello(HttpServletRequest request,ComQuery comQuery){
-
-        log.info("request.getParameter key={}", request.getParameter("key"));
+    public ResultVO hello(HttpServletRequest request, ComQuery comQuery){
 
         log.info("comQuery={}", JSON.toJSONString(comQuery));
 
@@ -31,7 +30,7 @@ public class HelloController {
 
         log.info("comDTO={}", JSON.toJSONString(comDTO));
 
-        return JSON.toJSONString(comQuery);
+        return ResultVO.success(comDTO);
     }
 
     @RequestMapping("/hello2")

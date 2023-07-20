@@ -4,17 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * @author zhoujialiang9
- * @date 2022/7/18 17:25
+ * @date 2023/6/21 14:47
  **/
 @Getter
 @Setter
-public class ComQuery implements Serializable {
-    private String key;
-    private Integer num;
+public class MyUser implements Serializable {
+    private String id;
     private String name;
-    private List<MyUser> users;
 }
