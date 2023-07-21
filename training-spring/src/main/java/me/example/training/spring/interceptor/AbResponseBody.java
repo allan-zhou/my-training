@@ -1,5 +1,6 @@
 package me.example.training.spring.interceptor;
 
+import me.example.training.spring.domain.vo.ABResultVO;
 import me.example.training.spring.domain.vo.ResultVO;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
@@ -12,6 +13,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author zhoujialiang9
@@ -33,9 +36,27 @@ public class AbResponseBody implements ResponseBodyAdvice<Object> {
         ModifiableHttpServletRequestWrapper requestWrapper = (ModifiableHttpServletRequestWrapper) httpServletRequest;
 
         if(body instanceof ResultVO){
-            String name = requestWrapper.getParameter("key");
-            ((ResultVO) body).setMessage(name);
+            String key = requestWrapper.getParameter("key");
+            ((ResultVO) body).setAbPower(buildABResult(key));
         }
+
+        
         return body;
+    }
+
+    /**
+     * 临时方法
+     * @param key
+     * @return
+     */
+    private List<ABResultVO> buildABResult(String key){
+        List<ABResultVO> list = new ArrayList<>();
+
+        ABResultVO abResultVO = new ABResultVO();
+        abResultVO.setLabel(key);
+        abResultVO.setExpId(key);
+        list.add(abResultVO);
+
+        return list;
     }
 }

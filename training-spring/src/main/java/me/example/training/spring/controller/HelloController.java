@@ -3,8 +3,10 @@ package me.example.training.spring.controller;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import me.example.training.spring.domain.convert.ComConvert;
+import me.example.training.spring.domain.convert.HelloConvert;
 import me.example.training.spring.domain.dto.ComDTO;
 import me.example.training.spring.domain.query.ComQuery;
+import me.example.training.spring.domain.vo.HelloVO;
 import me.example.training.spring.domain.vo.ResultVO;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,12 +27,12 @@ public class HelloController {
 
         log.info("comQuery={}", JSON.toJSONString(comQuery));
 
-        // 转dto
-        ComDTO comDTO = ComConvert.INSTANCE.convert2ComDTO(comQuery);
+        // 转VO
+        HelloVO helloVO = HelloConvert.INSTANCE.convert2HelloVO(comQuery);
 
-        log.info("comDTO={}", JSON.toJSONString(comDTO));
+        log.info("VO={}", JSON.toJSONString(helloVO));
 
-        return ResultVO.success(comDTO);
+        return ResultVO.success(helloVO);
     }
 
     @RequestMapping("/hello2")

@@ -1,5 +1,6 @@
-package me.example.training.spring.interceptor;
+package me.example.training.spring.config;
 
+import me.example.training.spring.interceptor.RequestInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;

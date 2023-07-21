@@ -3,6 +3,8 @@ package me.example.training.spring.domain.vo;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 /**
  * @author zhoujialiang9
  * @date 2023/7/18 19:46
@@ -13,6 +15,7 @@ public class ResultVO<T> {
     private String code;
     private String message;
     private T data;
+    private List<ABResultVO> abPower;
 
     public static final String SUCCESS = "0";
     public static final String ERROR = "-1";

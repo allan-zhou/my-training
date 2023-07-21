@@ -23,7 +23,7 @@ public class RequestInterceptor implements HandlerInterceptor {
 
             ModifiableHttpServletRequestWrapper requestWrapper = (ModifiableHttpServletRequestWrapper) request;
 
-            requestWrapper.setParameter("key", "test");
+            //requestWrapper.setParameter("key", "test");
 
             return true;
         }
