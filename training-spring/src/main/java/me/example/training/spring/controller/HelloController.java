@@ -2,10 +2,8 @@ package me.example.training.spring.controller;
 
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
-import me.example.training.spring.domain.convert.ComConvert;
 import me.example.training.spring.domain.convert.HelloConvert;
-import me.example.training.spring.domain.dto.ComDTO;
-import me.example.training.spring.domain.query.ComQuery;
+import me.example.training.spring.domain.query.HelloQuery;
 import me.example.training.spring.domain.vo.HelloVO;
 import me.example.training.spring.domain.vo.ResultVO;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,12 +21,12 @@ import javax.servlet.http.HttpServletRequest;
 public class HelloController {
 
     @RequestMapping("/hello")
-    public ResultVO hello(HttpServletRequest request, ComQuery comQuery){
+    public ResultVO hello(HttpServletRequest request, HelloQuery helloQuery){
 
-        log.info("comQuery={}", JSON.toJSONString(comQuery));
+        log.info("comQuery={}", JSON.toJSONString(helloQuery));
 
         // 转VO
-        HelloVO helloVO = HelloConvert.INSTANCE.convert2HelloVO(comQuery);
+        HelloVO helloVO = HelloConvert.INSTANCE.convert2HelloVO(helloQuery);
 
         log.info("VO={}", JSON.toJSONString(helloVO));
 
@@ -36,12 +34,12 @@ public class HelloController {
     }
 
     @RequestMapping("/hello2")
-    public String hello2(HttpServletRequest request,@RequestBody ComQuery comQuery){
+    public String hello2(HttpServletRequest request,@RequestBody HelloQuery helloQuery){
 
         log.info("request.getParameter key={}", request.getParameter("key"));
 
-        log.info("comQuery={}", JSON.toJSONString(comQuery));
+        log.info("comQuery={}", JSON.toJSONString(helloQuery));
 
-        return JSON.toJSONString(comQuery);
+        return JSON.toJSONString(helloQuery);
     }
 }

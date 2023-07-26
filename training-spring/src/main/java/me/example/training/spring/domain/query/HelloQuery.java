@@ -12,7 +12,7 @@ import java.util.List;
  **/
 @Getter
 @Setter
-public class ComQuery implements Serializable {
+public class HelloQuery implements Serializable {
     private String key;
     private Integer num;
     private String name;

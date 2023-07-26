@@ -2,7 +2,7 @@ package me.example.training.spring.controller;
 
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
-import me.example.training.spring.domain.query.ComQuery;
+import me.example.training.spring.domain.query.HelloQuery;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class PostController {
 
     @RequestMapping("/post")
-    public String hello(ComQuery getComQuery, @RequestBody ComQuery postComQuery){
+    public String hello(HelloQuery getHelloQuery, @RequestBody HelloQuery postHelloQuery){
 
-        log.info("get params={}", JSON.toJSONString(getComQuery));
-        log.info("post params={}", JSON.toJSONString(postComQuery));
+        log.info("get params={}", JSON.toJSONString(getHelloQuery));
+        log.info("post params={}", JSON.toJSONString(postHelloQuery));
 
         return "ok";
     }

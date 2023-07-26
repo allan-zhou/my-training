@@ -1,8 +1,10 @@
 package me.example.training.spring.interceptor;
 
+import lombok.extern.slf4j.Slf4j;
 import me.example.training.spring.domain.vo.ABResultVO;
 import me.example.training.spring.domain.vo.ResultVO;
 import org.springframework.core.MethodParameter;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
@@ -17,9 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ *
+ *
  * @author zhoujialiang9
  * @date 2023/7/18 20:26
  **/
+@Slf4j
 @ControllerAdvice
 public class AbResponseBody implements ResponseBodyAdvice<Object> {
     @Override
@@ -40,7 +45,7 @@ public class AbResponseBody implements ResponseBodyAdvice<Object> {
             ((ResultVO) body).setAbPower(buildABResult(key));
         }
 
-        
+
         return body;
     }
 
