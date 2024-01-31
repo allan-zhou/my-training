@@ -12,3 +12,6 @@ thread.pool:
       corePoolSize: 2
       maxPoolSize: 10
 
+server:
+  max-http-header-size: 102400
+

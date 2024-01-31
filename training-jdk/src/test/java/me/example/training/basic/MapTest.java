@@ -1,8 +1,12 @@
 package me.example.training.basic;
 
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.NumberUtil;
+import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
+import me.example.training.domain.Student;
 import me.example.training.domain.TestUser;
 import me.example.training.domain.User;
 import org.apache.commons.collections4.CollectionUtils;
@@ -161,16 +165,22 @@ public class MapTest {
 
     @Test
     public void mapTest3(){
+        String str = "{\"0\":\"succ\",\"-2\":\"购物车为空-2\",\"-3\":\"购物车为空\"}";
 
-        List<String> stringList = new ArrayList<>();
+        Map<String, String> map = JSON.parseObject(str, Map.class);
 
-        for (int i = 0; i < 5; i++) {
-            stringList.add(String.valueOf(i));
-        }
+        List<String> list = Arrays.asList("0", "-2", "-5");
 
-        //stringList.add("abc");
+        list.stream().forEach(item -> {
 
-        log.info("result={}", !stringList.stream().allMatch(it-> NumberUtil.isNumber(it)));
+            if(!map.keySet().contains(item)){
+
+                log.info("不包含key={}， value={}", item ,map.get(item));
+            } else {
+                log.info("包含key={}， value={}", item ,map.get(item));
+            }
+
+        });
 
 
     }

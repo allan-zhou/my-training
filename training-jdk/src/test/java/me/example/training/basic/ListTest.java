@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -219,6 +220,21 @@ public class ListTest {
         log.info("{}", str == str2);
         log.info("{}", str.equals(str2));
         log.info("{}", str.intern() == str2.intern());
+
+    }
+
+    @Test
+    public void test7(){
+        List<String> stringList = new ArrayList<>();
+
+        log.info("{}", stringList.stream().limit(1).collect(Collectors.toList()));
+
+        stringList.add("a");
+        stringList.add("b");
+        stringList.add("c");
+
+        log.info("{}", stringList.stream().limit(1).collect(Collectors.toList()));
+        log.info("{}", stringList.stream().limit(2).collect(Collectors.toList()));
 
     }
 

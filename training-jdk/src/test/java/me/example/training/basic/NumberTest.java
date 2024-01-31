@@ -1,5 +1,6 @@
 package me.example.training.basic;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.NumberUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -22,11 +23,6 @@ public class NumberTest {
 
     @Test
     public void test1() {
-//
-//        Stream.of("0.9999", "0.98888", "0.99", "0.90").forEach(item->{
-//            log.info("result={}", NumberUtil.decimalFormat("#.##", new BigDecimal(item), RoundingMode.DOWN));
-//        });
-
         Stream.of("10,100", "10,99","10,89").forEach(item->{
 
             String[] arr = StringUtils.split(item, ",");
@@ -59,13 +55,12 @@ public class NumberTest {
     @Test
     public void test2() {
 
-        log.info("{}", Stream.of("10.0", "20.1")
-                .map(i -> {
-                    return  Integer.parseInt(i);
-                })
-                .reduce((a, b) -> {
-                    log.info("a={},b={}", a,b);
-                    return a + b;
-                }).get().toString());
+        Stream.of("0.1","999", "999.0","999.1","999.123","999.125","999.129").forEach(item->{
+
+            log.info("方式1={}", NumberUtil.decimalFormat("0.00", new BigDecimal(item), RoundingMode.HALF_UP));
+
+
+            log.info("方式2={}",  NumberUtil.decimalFormat("0.00", NumberUtil.round( new BigDecimal(item), 2).doubleValue()));
+        });
     }
 }

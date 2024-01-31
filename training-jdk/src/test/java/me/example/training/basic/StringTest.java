@@ -2,6 +2,8 @@ package me.example.training.basic;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -16,17 +18,21 @@ import java.util.List;
 @SpringBootTest
 public class StringTest {
 
-    List<String> stringList1 = new ArrayList<>();
+    List<String> stringList = new ArrayList<>();
 
     @Test
     public void test1(){
+        stringList.add("https://pro.m.jd.com/mall/active/3xhqjGH1wMz5FaMgrfYhR22sFvqz/index.html?venderId={$}");
 
-        log.info("{}", StringUtils.joinWith(",",null, null));
 
-        stringList1.add("a");
-        stringList1.add("b");
+        stringList.stream().forEach(str -> {
 
-        log.info("{}", StringUtils.joinWith(",",stringList1.get(0), stringList1.get(1)));
+
+            log.info("{}",StringUtils.replaceChars( str, "{$}","888000"));
+            log.info("{}",StringUtils.replace( str, "{$}","888000"));
+
+
+        });
 
     }
 }

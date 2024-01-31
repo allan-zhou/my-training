@@ -17,12 +17,8 @@ public class OptionalTest {
     @Test
     public void test1() {
         String str = null;
-
-        log.info("{}", Optional.ofNullable(str).orElse("NULL"));
-
-        str = "abc";
-
-        log.info("{}", Optional.ofNullable(str).orElse("NULL"));
+        String result = Optional.ofNullable(str).orElse("default");
+        log.info("result={}", result);
 
     }
 }

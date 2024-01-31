@@ -3,6 +3,7 @@ package me.example.training.java8;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import me.example.training.domain.User;
+import org.apache.commons.collections4.CollectionUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.platform.commons.util.StringUtils;
@@ -228,7 +229,6 @@ public class StreamTest {
         });
     }
 
-
     @Test
     public void spliteratorTest(){
         List<User> userList = new ArrayList<>();
@@ -237,14 +237,26 @@ public class StreamTest {
         userList.add(User.builder().id(3).name("c").type("bbb").build());
         userList.add(User.builder().id(4).name("d").type("bbb").build());
 
-        Map<String, List<User>> map =userList.stream().collect(Collectors.groupingBy(User::getType));
 
-        map.entrySet().forEach(stringListEntry -> {
+        List<User> userLis1 = userList.stream().filter(it -> it.getType().equals("x")).collect(Collectors.toList());
 
-            log.info("key={} value={}", stringListEntry.getKey(), JSON.toJSONString(stringListEntry.getValue()));
+        log.info("isEmpty={}, data={}", CollectionUtils.isEmpty(userLis1), JSON.toJSON(userLis1));
 
+        List<User> userLis2 = userList.stream()
+                .map(it -> {
+                    if (it.getType().equals("x")) {
+                        return it;
+                    }
+
+                    return null;
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+
+        log.info("isEmpty={}, data={}", CollectionUtils.isEmpty(userLis2), JSON.toJSON(userLis2));
+        userLis2.forEach(it->{
+            log.info("是否为空={}", it==null);
         });
-
     }
 
 
@@ -255,5 +267,19 @@ public class StreamTest {
         user.setName(name);
 
         return user;
+    }
+
+    @Test
+    public void test4() {
+        List<User> userList = new ArrayList<>();
+        userList.add(User.builder().id(1).name("a").type("aaa").build());
+        userList.add(User.builder().id(2).name("b").type("aaa").build());
+        userList.add(User.builder().id(3).name("c").type("bbb").build());
+        userList.add(User.builder().id(4).name("d").type("bbb").build());
+
+
+        User user = userList.stream().filter(it -> it.getName().equals("123")).findFirst().orElse(null);
+        log.info("{}", user == null ? "null" : JSON.toJSONString(user));
+
     }
 }

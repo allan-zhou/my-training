@@ -19,6 +19,18 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 @RestController
 public class HelloController {
+    @RequestMapping("/")
+    public ResultVO home(HttpServletRequest request, HelloQuery helloQuery){
+
+        log.info("comQuery={}", JSON.toJSONString(helloQuery));
+
+        // 转VO
+        HelloVO helloVO = HelloConvert.INSTANCE.convert2HelloVO(helloQuery);
+
+        log.info("VO={}", JSON.toJSONString(helloVO));
+
+        return ResultVO.success(helloVO);
+    }
 
     @RequestMapping("/hello")
     public ResultVO hello(HttpServletRequest request, HelloQuery helloQuery){
