@@ -162,25 +162,10 @@ public class MapTest {
         log.info("computeIfPresent result={},  value={}", value, map.get(key2));
     }
 
-
     @Test
     public void mapTest3(){
-        String str = "{\"0\":\"succ\",\"-2\":\"购物车为空-2\",\"-3\":\"购物车为空\"}";
 
-        Map<String, String> map = JSON.parseObject(str, Map.class);
-
-        List<String> list = Arrays.asList("0", "-2", "-5");
-
-        list.stream().forEach(item -> {
-
-            if(!map.keySet().contains(item)){
-
-                log.info("不包含key={}， value={}", item ,map.get(item));
-            } else {
-                log.info("包含key={}， value={}", item ,map.get(item));
-            }
-
-        });
+        Map<String,String> map = Collections.EMPTY_MAP;
 
 
     }

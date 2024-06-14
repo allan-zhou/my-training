@@ -6,17 +6,30 @@ import me.example.training.domain.User;
 import org.apache.commons.collections4.CollectionUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.platform.commons.util.StringUtils;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.*;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 /**
+ *
+ * 流，管道，
+ * 函数式编程、函数式接口、lambda
+ * 有限流、无限流
+ * 并行编程、ForkJoinPool
+ * 集合操作：过滤、分组、收集、规约
+ * 内部迭代、不可变的、延迟执行、循环合并
+ * 中间操作、终端操作
+ * 有状态、无状态、短路操作、非短路操作
+ * 接口静态方法、默认方法、方法引用
+ *
+ *
+ * 规约：对N个数据，符合二元结合律的操作符，生成得到(reduce减少到)一个值。如：sum、count、min、max，当然使用reduce也可以做到。
+ *
+ *
+ *
  * ## 创建方法
  * - an array
  * - an collection
@@ -53,17 +66,18 @@ import java.util.stream.StreamSupport;
 @Slf4j
 @SpringBootTest
 public class StreamTest {
-    List<String> stringList = Arrays.asList("abc", "", "bc", "efg", "abcd", "", "jkl");
-
-    List<Integer> integerList = Arrays.asList(1, 3, 5, 7, 100);
+    List<Integer> integerList = Arrays.asList(1, 3, 5, 7, 9);
 
     List<User> userList = new ArrayList<>();
 
     @Before
     public void before() {
-        userList.add(buildUser(1, "zhang san"));
+        userList.add(buildUser(100, "zhang san"));
         userList.add(buildUser(2, "li si"));
-        userList.add(buildUser(3, "wang wu "));
+        userList.add(buildUser(3, "wang wu"));
+        userList.add(buildUser(11, "Apple"));
+        userList.add(buildUser(12, "HuaWei"));
+        userList.add(buildUser(13, "XiaoMi"));
     }
 
     /**
@@ -72,59 +86,18 @@ public class StreamTest {
     @Test
     public void streamTest1() {
 
-        log.info("----------- count={}", Stream.of(1, 22, 55, 99)
-                .filter(i -> i > 50)
-                .peek(i -> log.info("count peek={}", i))
-                .count());
+        userList.stream().filter(item -> {
+            log.info("filter1 item = {}", JSON.toJSONString(item));
+            return item.getId() > 5;
+        }).peek(item -> {
+            item.setName(item.getName() + "_AAA");
+            log.info("peek item = {}", JSON.toJSONString(item));
+        }).forEach(item->{
+            
+        });
 
-        log.info("----------- min={}", Stream.of(1, 22, 55, 99)
-                .peek(i -> log.info("min peek={}", i))
-                .min(Comparator.comparingInt(o -> o)));
+        log.info("userList={}", JSON.toJSONString(userList));
 
-        log.info("----------- max={}", Stream.of(1, 22, 55, 99).max((o1, o2) -> o1 - o2));
-
-
-        // sorted，默认正序
-        // forEach， 终端操作
-        Stream.of(66, 22, 55, 99)
-                .sorted()
-                .forEach(i -> log.info("----------- forEach={}", i));
-
-        Stream.of(66, 22, 55, 99)
-                .sorted((o1, o2) -> o2 - o1)
-                .forEach(i -> log.info("----------- forEach={}", i));
-
-        // toArray, 终端操作
-        Stream.of(1, 3, 5, 7)
-                .map(i -> i * 2)
-                .peek(i -> log.info("map peek={}", i))
-                .toArray();
-
-
-        // flatmap
-        Stream.of(1, 3, 5, 7)
-                .flatMap(s -> Stream.of(10, 100).map(i -> i * s))
-                .peek(i -> log.info("flatMap peek={}", i))
-                .toArray();
-
-
-        // 短路, limit
-        log.info("----------- limit={}", Stream.of(66, 22, 55, 99)
-                .filter(i -> i > 50)
-                .peek(i -> log.info("limit peek before sorted={}", i))
-                .sorted()
-                .peek(i -> log.info("limit peek after sorted={}", i))
-                .limit(1)
-                .peek(i -> log.info("limit peek after limit={}", i))
-                .toArray());
-
-
-        // distinct
-        Stream.of(11, 11, 22)
-                .peek(i -> log.info("distinct peek before sorted={}", i))
-                .distinct()
-                .peek(i -> log.info("distinct peek after sorted={}", i))
-                .toArray();
     }
 
 
@@ -147,53 +120,41 @@ public class StreamTest {
     }
 
     /**
-     * reduce
-     * <p>
-     * - 三个重构方法
+     *
+     * reduce，有三个重载方法
+     * 1、一个入参的重载方法，返回的是Optional。
+     * 2、两个、三个入参的重载方法，返回的是集合元素类型。
+     *
+     * ======================================================
+     * ===== java8 reduce方法中的第三个参数combiner有什么作用？当stream是并行流时，会触发
+     * =======================================================
+     *
+     *
      */
     @Test
     public void streamTest3() {
 
-        Optional<Integer> result = Stream.of(1, 3, 5, 7).reduce((a, b) -> a + b);
-        log.info("result = {}", result.get());
+        int result = integerList.stream().reduce((a, b) -> a + b).get();
+        log.info("result = {}", result);
 
-        result = Stream.of(1, 3, 5, 7).reduce(Integer::sum);
-        log.info("reduce result， Integer::sum = {}", result.get());
+        int result1 = integerList.stream().reduce(Integer::max).get();
+        log.info("reduce result， Integer::max = {}", result1);
 
-        // Sum, min, max, average, and string concatenation are all special cases of reduction. 即identity=0的场景
-        // 相当于 stream.max()
-        result = Stream.of(1, 3, 5, 7).reduce(Integer::max);
-        log.info("reduce result， Integer::max = {}", result.get());
-        result = Stream.of(1, 3, 5, 7).max(Comparator.comparing(o -> o));
-        log.info("stream.max() result，= {}", result.get());
+        int result2 = integerList.stream().reduce(1, (a, b) -> a + b);
+        log.info("identity=1，result={}", result2);
 
-        // 相当于 stream.min
-        result = Stream.of(1, 3, 5, 7).reduce(Integer::min);
-        log.info("reduce result， Integer::min = {}", result.get());
-        result = Stream.of(1, 3, 5, 7).min(Comparator.comparingInt(o -> o));
-        log.info("stream.min() result，= {}", result.get());
+        integerList.stream()
+                .parallel()
+                .reduce(0, (acc, n) -> {
+                    log.info("accumulator。acc={}, n={}", acc, n);
+                    return acc + n;
+                }, (acc, n) -> {
+                    log.info("combiner。acc={}, n={}", acc, n);
+                    return acc + n;
+                });
 
+        //log.info("result3 ={}", result3);
 
-        /**
-         * 重载方法2
-         *
-         * T reduce(T identity, BinaryOperator<T> accumulator);
-         *
-         */
-        log.info("------------重载方法2------------");
-        Integer reduceResult2 = Stream.of(1, 3, 5, 7).reduce( 100, Integer::max);
-        log.info("reduce result， = {}", reduceResult2);
-
-
-        /**
-         * 重载方法3
-         * <U> U reduce(U identity,
-         *                  BiFunction<U, ? super T, U> accumulator,
-         *                  BinaryOperator<U> combiner);
-         */
-        log.info("------------重载方法3------------");
-        Integer reduceResult3 = Stream.of(1, 3, 5, 7).reduce(100, (a, b) -> a + b, Integer::sum);
-        log.info("reduce result， = {}", reduceResult3);
     }
 
 
@@ -202,7 +163,6 @@ public class StreamTest {
      *
      * 1、Stream.generate()，无限流
      * 2、Stream.iterate()， 无限流
-     *
      * 3、Stream.of()， 有限流
      * 4、数组/集合。 Collection.stream(), Collection.parallelStream()
      *
@@ -229,35 +189,26 @@ public class StreamTest {
         });
     }
 
+    /**
+     * 有状态、无状态、短路操作、非短路操作
+     *
+     * 中间操作：有状态、无状态操作，都是中间操作，返回的结果都是stream
+     * 终端操作：短路操作、非短路操作，都是终端操作，返回的是结果或for-each
+     *
+     * 有状态：有4种：sorted，distinct，limit，skip，
+     * 无状态：无状态的操作
+     *
+     */
     @Test
-    public void spliteratorTest(){
-        List<User> userList = new ArrayList<>();
-        userList.add(User.builder().id(1).name("a").type("aaa").build());
-        userList.add(User.builder().id(2).name("b").type("aaa").build());
-        userList.add(User.builder().id(3).name("c").type("bbb").build());
-        userList.add(User.builder().id(4).name("d").type("bbb").build());
+    public void streamTest5() {
 
+        // 求和
+        log.info("={}", integerList.stream().sorted().collect((Collectors.summingInt(value -> value))));
+        // 求和
+        log.info("={}", integerList.stream().reduce((a, b) -> a +b).get());
 
-        List<User> userLis1 = userList.stream().filter(it -> it.getType().equals("x")).collect(Collectors.toList());
-
-        log.info("isEmpty={}, data={}", CollectionUtils.isEmpty(userLis1), JSON.toJSON(userLis1));
-
-        List<User> userLis2 = userList.stream()
-                .map(it -> {
-                    if (it.getType().equals("x")) {
-                        return it;
-                    }
-
-                    return null;
-                })
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
-
-        log.info("isEmpty={}, data={}", CollectionUtils.isEmpty(userLis2), JSON.toJSON(userLis2));
-        userLis2.forEach(it->{
-            log.info("是否为空={}", it==null);
-        });
     }
+
 
 
     private User buildUser(Integer id, String name) {
@@ -267,19 +218,5 @@ public class StreamTest {
         user.setName(name);
 
         return user;
-    }
-
-    @Test
-    public void test4() {
-        List<User> userList = new ArrayList<>();
-        userList.add(User.builder().id(1).name("a").type("aaa").build());
-        userList.add(User.builder().id(2).name("b").type("aaa").build());
-        userList.add(User.builder().id(3).name("c").type("bbb").build());
-        userList.add(User.builder().id(4).name("d").type("bbb").build());
-
-
-        User user = userList.stream().filter(it -> it.getName().equals("123")).findFirst().orElse(null);
-        log.info("{}", user == null ? "null" : JSON.toJSONString(user));
-
     }
 }

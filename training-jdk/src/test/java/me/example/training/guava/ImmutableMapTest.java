@@ -3,11 +3,13 @@ package me.example.training.guava;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.collection.IterUtil;
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.NumberUtil;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import me.example.training.domain.User;
+import org.apache.commons.collections4.MapUtils;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -61,9 +63,11 @@ public class ImmutableMapTest {
         ImmutableMap<Integer, User> immutableMap = Maps.uniqueIndex(userList, User::getId);
         log.info("immutableMap={}", JSON.toJSONString(immutableMap));
 
+
         // hutool
         Map<Integer, User> userMap = IterUtil.toMap(userList, User::getId);
         log.info("userMap={}", JSON.toJSONString(immutableMap));
+
     }
 
     private List<User> initUserList(){

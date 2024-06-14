@@ -55,12 +55,19 @@ public class NumberTest {
     @Test
     public void test2() {
 
-        Stream.of("0.1","999", "999.0","999.1","999.123","999.125","999.129").forEach(item->{
+        Stream.of("1.00","1.20", "1.23", "1.234", "1.239", "a").forEach(item->{
 
-            log.info("方式1={}", NumberUtil.decimalFormat("0.00", new BigDecimal(item), RoundingMode.HALF_UP));
+            if (NumberUtil.isNumber(item)) {
+
+                log.info("是数值={}, 方式1={}", item, NumberUtil.decimalFormat("#.##", new BigDecimal(item)));
+
+                log.info("是数值={}, 方式2={}", item, NumberUtil.decimalFormat("0.00", new BigDecimal(item)));
+            } else {
+                log.info("不是数值={}", item);
+            }
 
 
-            log.info("方式2={}",  NumberUtil.decimalFormat("0.00", NumberUtil.round( new BigDecimal(item), 2).doubleValue()));
+            //log.info("方式2={}",  NumberUtil.decimalFormat("0.00", NumberUtil.round( new BigDecimal(item), 2).doubleValue()));
         });
     }
 }
