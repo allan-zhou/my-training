@@ -3,20 +3,18 @@ package me.example.training.java8;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import me.example.training.domain.User;
-import org.apache.commons.collections4.CollectionUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.*;
-import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
  *
  * 流，管道，
- * 函数式编程、函数式接口、lambda
+ * 函数式编程、函数式接口、lambda表达式、匿名韩式
  * 有限流、无限流
  * 并行编程、ForkJoinPool
  * 集合操作：过滤、分组、收集、规约
@@ -28,36 +26,19 @@ import java.util.stream.Stream;
  *
  * 规约：对N个数据，符合二元结合律的操作符，生成得到(reduce减少到)一个值。如：sum、count、min、max，当然使用reduce也可以做到。
  *
+ * 中间操作（intermediate operation）：返回的都是Stream。中间操作有2种：有状态操作（sorted、skip、limit、distinct）、无状态操作。
+ * 终端操作（terminal operation）： 生产一个结果或foreach。终端操作有2种：短路操作（anyMatch、allMatch、noneMathc、findFirst、findAny）、非短路操作。
  *
- *
- * ## 创建方法
- * - an array
- * - an collection
- * - an I/O channel
- * - an generator function
- * <p>
- * ## 用法
- * - 中间操作（intermediate operation）：
- * - 终端操作（terminal operation）： produces a result or side-effect
- * <p>
- * <p>
- * ## 实现原理
- * <p>
- * Stream是一个来自数据源的元素队列并支持聚合操作
- * - 数据源：流的来源，可以是数值、集合、IO channel、产生器generator
- * - 元素：是特定类型的对象，形成一个队列。Stream并不会存储元素，而是按需计算。
- * - 聚合操作：类似SQL语句一样的操作，比如filter，map，reduce，find，match，sorted等
- * <p>
  * 和以前的Collection操作不同，Stream操作还有 2 个基础特征
  * - Pipelining：中间操作都会返回流对象本身。这样多个操作可以串联成一个管道，如同流式风格（fluent style）。这样做可以对操作进行优化，比如延迟执行（laziness）和短路（short-circuiting）
  * - 内部迭代：以前对集合遍历都是通过Iterator或者For-Each的方式，显式的在集合外部进行迭代。这叫做外部迭代。Stream提供了内部迭代的方式，通过访问者模式（visitor）实现
- * <p>
- * 生成流的方式
- * - stream() - 为集合创建串行流
- * - parallelStream() - 为集合创建并行流
- * <p>
- * 集合的操作
- * - forEach，map，flatMap，filter，limit，sorted
+ *
+ * 函数式编程：历史上研究函数式编程的理论是Lambda演算，所以我们经常把支持函数式编程的编码风格称为Lambda表达式。JVM内部是通过invokedynamic指令来实现Lambda表达式的。
+ * 程序 = 数据结构+算法，函数式编程，是更高维度的抽象，是对算法的抽象。
+ *
+ * Lambda表达式：不能替代所有的匿名函数，可以简写函数接口functionInterface
+ *
+ *
  *
  * @Description:
  * @Author: zhoujialiang9
@@ -195,8 +176,11 @@ public class StreamTest {
      * 中间操作：有状态、无状态操作，都是中间操作，返回的结果都是stream
      * 终端操作：短路操作、非短路操作，都是终端操作，返回的是结果或for-each
      *
-     * 有状态：有4种：sorted，distinct，limit，skip，
-     * 无状态：无状态的操作
+     * 有状态操作：有4种：sorted，distinct，limit，skip，
+     * 无状态操作：allMatch,anyMatch,noneMatch,findFirst,findAny
+     *
+     * findFirst与findAny的区别：在串行情况下，两者一致。在并行情况下，findAny性能更高。
+     *
      *
      */
     @Test
@@ -207,8 +191,11 @@ public class StreamTest {
         // 求和
         log.info("={}", integerList.stream().reduce((a, b) -> a +b).get());
 
-    }
+        log.info("={}", integerList.stream().peek(item -> {
+            log.info("peek item ={}", item);
+        }).filter(integer -> integer > 5).findAny().get());
 
+    }
 
 
     private User buildUser(Integer id, String name) {

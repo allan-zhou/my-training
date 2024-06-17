@@ -36,6 +36,17 @@ import java.util.stream.Stream;
 @SpringBootTest
 public class ListTest {
 
+    @Test
+    public void test1(){
+        List<String> extraInfoFuncPoint = new ArrayList<>();
+        extraInfoFuncPoint.add("a");
+        extraInfoFuncPoint.add("b");
+
+        extraInfoFuncPoint.remove("a");
+
+        log.info("list={}", JSON.toJSONString(extraInfoFuncPoint));
+    }
+
     /**
      * Arraylist，
      * - 添加&删除，底层均使用到java.lang.System#arraycopy
@@ -55,7 +66,7 @@ public class ListTest {
      *
      */
     @Test
-    public void test1(){
+    public void test2(){
         // 初始化时，不给定capacity，则使用 DEFAULTCAPACITY_EMPTY_ELEMENTDATA
         ArrayList<String> stringList = new ArrayList<>();
 
@@ -100,7 +111,7 @@ public class ListTest {
      *
      */
     @Test
-    public void test2(){
+    public void test3(){
         String[] s1 = new String[]{"a","b","c","d","e"};
 
         String[] s2 = new String[0];
@@ -140,7 +151,7 @@ public class ListTest {
      * LinkedList：最差场景场景需要遍历集合一半的元素
      */
     @Test
-    public void test3(){
+    public void test4(){
        List<String> arrayList = Arrays.asList("a","b","c","d","e");
 
        int index = 1;
@@ -160,7 +171,7 @@ public class ListTest {
      * Queue:队列，FIFO
      */
     @Test
-    public void test4(){
+    public void test5(){
         List<String> arrayList = Arrays.asList("a","b","c","d","e");
         LinkedList<String> linkedList = new LinkedList<>(arrayList);
 
@@ -179,7 +190,7 @@ public class ListTest {
      * Stack ，LIFO
      */
     @Test
-    public void test5(){
+    public void test6(){
         Stack<String> stringStack = new Stack<>();
         stringStack.push("a");
         stringStack.push("b");
@@ -198,7 +209,7 @@ public class ListTest {
      *
      */
     @Test
-    public void test6(){
+    public void test7(){
         String str = "abcABC中国";
 
         // 英文占1个字节。中文占3个字节。
@@ -224,7 +235,7 @@ public class ListTest {
     }
 
     @Test
-    public void test7(){
+    public void test8(){
         List<String> stringList = new ArrayList<>();
 
         log.info("{}", stringList.stream().limit(1).collect(Collectors.toList()));

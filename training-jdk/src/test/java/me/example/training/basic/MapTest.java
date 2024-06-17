@@ -40,6 +40,10 @@ public class MapTest {
 
     @Test
     public void test1(){
+    }
+
+    @Test
+    public void test2(){
         log.info("tableSizeFor(0) = {}", tableSizeFor(0));
 
         log.info("tableSizeFor(4) = {}", tableSizeFor(10));
@@ -70,7 +74,7 @@ public class MapTest {
 
 
     @Test
-    public void test2(){
+    public void test3(){
         Object obj = new Object();
         log.info("hash={}，toBinaryString={}, i={}", hash(obj), Integer.toBinaryString(hash(obj)), 15 & hash(obj));
         obj = new Object();
@@ -160,14 +164,6 @@ public class MapTest {
         String key2 = "key2";
         value = map.computeIfPresent(key2, (o, n)-> n + "_111");
         log.info("computeIfPresent result={},  value={}", value, map.get(key2));
-    }
-
-    @Test
-    public void mapTest3(){
-
-        Map<String,String> map = Collections.EMPTY_MAP;
-
-
     }
 
 }
