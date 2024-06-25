@@ -83,8 +83,7 @@ public class ParseAddCartSkuTest {
 
         });
 
-        Map result = new HashMap();
-        result = MapUtil.sortByValue(map, true);
+        Map result = MapUtil.sortByValue(map, true);
 
         log.info("{}", result);
     }

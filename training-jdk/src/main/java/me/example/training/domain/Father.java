@@ -1,5 +1,9 @@
 package me.example.training.domain;
 
+import cn.hutool.core.util.StrUtil;
+
+import java.io.Serializable;
+
 /**
  * @author zhoujialiang9
  * @date 2024/6/17 10:50
@@ -31,7 +35,47 @@ public class Father {
         System.out.println("father say hi.");
     }
 
+    /**
+     * protected修饰符，使用invokevirtual调用
+     */
     protected void nihao(){
         System.out.println("father say nihao.");
+    }
+
+    /**
+     * final方法，不能被子类重写
+     */
+    public final void notOverride(){
+        System.out.println("father notOverride.");
+    }
+
+    public String speak(Integer msg) {
+        String content = StrUtil.format("father speak Integer={}.", msg);
+        System.out.println(content);
+        return content;
+    }
+
+    public String speak(int msg) {
+        String content = StrUtil.format("father speak int={}.", msg);
+        System.out.println(content);
+        return content;
+    }
+
+    public String speak(String msg) {
+        String content = StrUtil.format("father speak string={}.", msg);
+        System.out.println(content);
+        return content;
+    }
+
+    public String speak(Object msg) {
+        String content = StrUtil.format("father speak object={}.", msg);
+        System.out.println(content);
+        return content;
+    }
+
+    public String speak(Serializable msg) {
+        String content = StrUtil.format("father speak Serializable={}.", msg);
+        System.out.println(content);
+        return content;
     }
 }

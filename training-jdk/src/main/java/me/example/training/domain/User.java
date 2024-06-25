@@ -13,8 +13,13 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User implements Serializable {
+public class User implements Serializable, Comparable<User> {
     private Integer id;
     private String name;
     private String type;
+
+    @Override
+    public int compareTo(User o) {
+        return this.getId() - o.getId();
+    }
 }

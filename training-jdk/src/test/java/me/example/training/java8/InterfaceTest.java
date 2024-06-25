@@ -9,6 +9,8 @@ import me.example.training.export.InterfaceA;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.function.Function;
+
 /**
  * ---------------------------------------------------------------------------------------------------------
  * -- 接口、抽象类
@@ -41,21 +43,55 @@ import org.springframework.boot.test.context.SpringBootTest;
  * 动态链接：在运行过程中，完成方法直接引用的转化
  * 无论静态链接，还是动态链接，其结果都是方法的符号引用转化为直接引用。
  *
- * 静态分派：根据静态类型，决定方法执行的版本的分派动作。对应jvm指令invokestatic、invokespecial，另外还有final修饰的方法
- * 动态分派：根据实际类型，决定方法执行的版本的分派动作。对应jvm指令invokevirtual、invokeinterface、invokedynamic
+ * 静态分派：根据静态类型，决定方法执行的版本的分派动作。对应jvm指令invokestatic、invokespecial，另外还有final修饰的方法（虽然final方法通过invokevirtual指令调用）
+ * 动态分派：根据实际类型，决定方法执行的版本的分派动作。对应jvm指令invokevirtual、invokeinterface
  * 静态类型，动态类型：Human man = new Man(), Human是man的景静态类型，Man是man的动态类型。
  *---------------------------------------------------------------------------------------------------------
  *
  * 虚方法、非虚方法
  * 静态链接/静态绑定，动态链接/动态绑定
- * 方法分派
+ * 方法分派，单分派，多分派，静态多分派，动态单分派
+ *
  *
  * 非虚方法：在编译期，能明确方法调用关系，把符号引用转换为直接引用。比如：静态方法、构造函数、私有方法、父类方法、final修饰的方法。final修饰的方法比较特殊，虽然是不可变方法，但是实际调用使用invokevirtual指令。
  * 虚方法：在运行期，动态确定方法调用关系。
  *---------------------------------------------------------------------------------------------------------
- * --- invokedynamic 与 invokevirtual、invokeinterface 有什么区别？
+ *--- 方法调用 和 方法执行
+ * 方法调用与方法执行，是不同的事情。
+ * 方法调用，是jvm选择方法版本的过程。有静态分派、动态分派。重载overload是静态分派的典型应用，重写override是动态分派的典型应用。非虚方法（类静态方法、构造函数、私有方法、父类方法super、final）通过静态分派，虚方法通过动态分派。
+ * 方法执行，是jvm执行字节码的过程，有解释执行、编译执行。
+ * main函数是jvm指令执行的起点。jvm会创建main线程来执行main函数。
  *
  *
+ * ---------------------------------------------------------------------------------------------------------
+ * --- 重载overload 和 重写override
+ * 重载overload，jvm是如何知道选择哪个方法版本的？
+ * 方法签名：方法名称、参数类型、参数个数。重载overload是方法名称相同，参数类型或参数个数不同。
+ * 当参数个数不同时，选择哪一个方法版本是确定的。
+ * 当参数个数相同，而参数类型不同时，选择方法会涉及:"自动类型转换"、"自动装箱"
+ *
+ * 重写override，jvm是如何选择哪个方法版本的？
+ * 重写，是jvm底层调用invokevirtual指令的实现，是invokevirtual多态查找的实现。
+ * invokevirtual依赖虚方法表vtable
+ * 虚方法表vtable、接口方法表itable
+ *
+ * ---------------------------------------------------------------------------------------------------------
+ * --- 栈帧是什么？
+ * 栈帧是支持jvm进行方法调用、方法执行的数据结构，也是jvm运行时数据区虚拟机栈的栈元素。
+ * 栈帧主要包含：局部变量表、操作数栈、动态链接、返回地址
+ *
+ * ---------------------------------------------------------------------------------------------------------
+ * --- 为什么需要 invokedynamic 指令？它的实现原理是什么？
+ * 为了让java支持动态语言特性。在此之前，java是一个半静态语言，invokestatic、invokespecial是静态分派，在类加载阶段确定调用关系。
+ * invokevirtual、invokeInterface是动态分派，在动态编译期（编译字节码）动态确定方法调用关系。
+ * 但是，无论静态分配，还是动态分派，分派的都是方法的入口。而invokedynamic，分派是方法体（内容逻辑），并且是由开发者直接完成的。
+ *
+ * 在invokedynamic之前，类似的场景，通过匿名类方法调用实现。
+ * 有了invokedynamic之后，使用方法句柄（MethodHandler）进行方法调用。
+ *
+ * ---------------------------------------------------------------------------------------------------------
+ * --- 方法句柄（MethodHandler） 与 反射（Reflection） 有什么区别？
+ * 方法句柄，相比反射更加轻量化、性能更高、更加安全。
  *
  *
  * @author zhoujialiang9
@@ -73,15 +109,26 @@ public class InterfaceTest {
         User user1 = new User();
         user1.setName("banana");
 
-        log.info("{}", InterfaceA.NUM);
-        log.info("{}", InterfaceA.hello());
+        int num = InterfaceA.NUM;
+        String str = InterfaceA.hello();
 
-        String actionResult = myAction(() -> "my test action result");
-        log.info("{}", actionResult);
-
+        String myActionResult = myAction(() -> "lambda param");
+        String myActionResult2 = myAction(new InterfaceA() {
+            @Override
+            public String action() {
+                return "new interface";
+            }
+        });
         InterfaceA interfaceA = new ClassA();
         interfaceA.action();
 
+        InterfaceA interfaceB = () -> "lambda param";
+        interfaceB.action();
+    }
+
+
+    public String myAction(InterfaceA interfaceA) {
+        return "myAction " +  interfaceA.action();
     }
 
     /**
@@ -89,16 +136,14 @@ public class InterfaceTest {
      * 1、invokevirtual，实例的非私有方法调用
      * 2、invokespecial，实例的私有方法、构造函数、父类的方法super.
      *
-     *
      */
     @Test
     public void test2(){
         Father son = new Son();
         son.say();
-    }
 
-    public String myAction(InterfaceA interfaceA) {
-        return interfaceA.defaultAction() + "===" ;//+ interfaceA.action();
+        Integer integer = 123456;
+        son.speak(integer);
     }
 
     private abstract class AbstractMyClass{

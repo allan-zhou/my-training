@@ -17,6 +17,4 @@ public class Son extends Father{
     public void nihao(){
        super.nihao();
     }
-
-
 }

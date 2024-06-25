@@ -40,11 +40,13 @@ public class ListTest {
     public void test1(){
         List<String> extraInfoFuncPoint = new ArrayList<>();
         extraInfoFuncPoint.add("a");
-        extraInfoFuncPoint.add("b");
+        extraInfoFuncPoint.add(null);
+        extraInfoFuncPoint.add(null);
 
-        extraInfoFuncPoint.remove("a");
+        List<String> list2 = null;
+        extraInfoFuncPoint.addAll(list2);
 
-        log.info("list={}", JSON.toJSONString(extraInfoFuncPoint));
+        log.info("list={}，size={}", JSON.toJSONString(extraInfoFuncPoint), extraInfoFuncPoint.size());
     }
 
     /**
