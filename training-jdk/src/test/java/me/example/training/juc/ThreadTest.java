@@ -4,9 +4,36 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+
 /**
+ * ----------------------------------------------------------------------------------------------------
+ * 线程的六种状态（新建、运行、终止、等待、计时等待、阻塞）
+ * @see Thread.State
+ * 引起线程状态变化的原因有哪些？多线程同步、通讯
+ * 操作线程状态变化的方式有哪些？主要有三类，第一类通过Thread类的静态方法。第二类通过Object实例对象上的方法。第三类通过LockSupport工具类方法。
  *
- * @see ThreadTest
+ * ----------------------------------------------------------------------------------------------------
+ *
+ * 多线程编程的优势：1、提高系统吞吐量 2、提高CPU利用率，充分利用多核CPU
+ * 多线程编程中注意的内容：1、共享变量 2、线程同步、锁的问题 3、线程池
+ *
+ * ----------------------------------------------------------------------------------------------------
+ * JMM（java内存模型）：一组抽象的规范定义，包含三方面：
+ * 1、可见性。共享变量。缓存一致性原理（缓存锁MESI）、总线嗅探、缓存行（cache line）
+ * 2、原子性。字节码指令、计算机指令；
+ * 3、有序性。指令重排序问题。代码编译优化、CPU指令级重排序。内存屏障（Memory Barriers，硬件机制）
+ *
+ * CAS操作：CAS操作和缓存锁，都是实现原子性的机制。但是，CAS操作是硬件指令集的实现，缓存锁是处理器内部的一种同步机制。CAS操作可能会利用缓存锁来实现原子性，也可能不需要。
+ * 缓存锁：为了提升计算性能，CPU采用了多级缓存架构。但是，对于共享变量，计算机使用缓存锁、总线嗅探的机制，保证共享变量的读更新（从主存读）、写更新（立即写回主存）
+ * 总线锁：总线锁，一个CPU在总线上输出此LOCK信号，则其他CPU的请求会被**阻塞**，从而实现了这个CPU对内存的独享。与缓存锁相比，总线锁具有更高的开销。
+ *
+ * ----------------------------------------------------------------------------------------------------
+ * java中的关键字和工具：
+ * - volatile、synchronized
+ * - ReentrantLock、读写锁
+ *
+ * ----------------------------------------------------------------------------------------------------
+ *
  *
  * @author zhoujialiang9
  * @date 2022/12/30 17:53
@@ -15,56 +42,21 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class ThreadTest {
 
+    int i = 0;
+    volatile int j =0;
+    Object object = new Object();
+
     /**
-     * 线程中断
      */
     @Test
     public void test1(){
+        int a,b = 0;
+        a = i++;
+        b = j++;
 
-        Thread thread1 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                log.info("name={}, isInterrupted={}", Thread.currentThread().getName(), Thread.currentThread().isInterrupted());
-
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    log.error("isInterrupted=" + Thread.currentThread().isInterrupted(),e);
-                }
-
-                log.info("name={} completed.", Thread.currentThread().getName());
-            }
-        });
-        thread1.setName("thread1");
-        thread1.start();
-
-        Thread thread2 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                log.info("name={}, isInterrupted={}", Thread.currentThread().getName(),  Thread.currentThread().isInterrupted());
-
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    log.error("isInterrupted=" + Thread.currentThread().isInterrupted(),e);
-                }
-
-                log.info("name={}, isInterrupted={}", Thread.currentThread().getName(), Thread.currentThread().isInterrupted());
-                log.info("name={} completed.", Thread.currentThread().getName());
-                log.info("name={}, isInterrupted={}", thread1.getName(), thread1.isInterrupted());
-            }
-        });
-        thread2.setName("thread2");
-        thread2.start();
-        thread1.interrupt();
-
-        log.info("name={}, isInterrupted={}", thread1.getName(), thread1.isInterrupted());
-        log.info("name={}, isInterrupted={}", thread1.getName(), thread1.isInterrupted());
-
-        while (true) {
-
+        synchronized (object) {
+            int c = 999;
         }
-
     }
 
 }

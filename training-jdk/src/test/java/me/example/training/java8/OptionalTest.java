@@ -1,4 +1,4 @@
-package me.example.training.basic;
+package me.example.training.java8;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;

@@ -1,6 +1,7 @@
 package me.example.training.basic;
 
 import com.alibaba.fastjson.JSON;
+import com.google.common.collect.ImmutableList;
 import lombok.extern.slf4j.Slf4j;
 import me.example.training.domain.TestUser;
 import org.junit.Test;
@@ -12,6 +13,41 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
+ *
+ * jdk中的数据结构：List、Set、Map、Queue、Deque
+ *
+ * 为什么要了解数据结构？1、影响程序性能 2、影响程序的设计和算法
+ *
+ * ---------------------------------------------------------------------------------------------------------
+ * jdk中的 List
+ * 1、ArrayList：
+ * 2、LinkedList：
+ * 3、CopyOnWriteArrayList：
+ * 4、Vector：
+ * 5、Stack：
+ *
+ *---------------------------------------------------------------------------------------------------------
+ * ArrayList
+ * 实现原理：基于数组实现，用Object[] elementData存储列表元素。
+ * 使用注意事项：
+ * - 读取快，插入删除慢
+ * - 扩容耗时，预估集合大小，减少扩容。大量使用时并频繁扩容，会造成内存碎片化
+ * - 非线程安全
+ *
+ *---------------------------------------------------------------------------------------------------------
+ * LinkedList
+ * 实现原理：基于链表实现，用Object[] elementData存储列表元素。
+ * 使用注意事项：
+ * - 插入删除快，读取慢
+ * - 内存泄露，链表过大注意。
+ * - 非线程安全
+ *
+ * ---------------------------------------------------------------------------------------------------------
+ * CopyOnWriteArrayList
+ * 实现原理：位于J.U.C包下，是ArrayList的线程安全版本变体。基于ArrayList、ReentrantLock实现，其中add元素时，进行了锁控制和数组元素复制
+ * 替代方案：1、ImmutableList（Guava）2、ConcurrentHashMap 3、ArrayList+锁
+ *
+ * ---------------------------------------------------------------------------------------------------------
  *
  * 数据结构：逻辑结构、存储结构
  * 逻辑结构种类：4种。集合、线性表、树、图
@@ -28,9 +64,17 @@ import java.util.stream.Stream;
  * 双向链表：node有两个指针域。如：LinkedList
  * 循环链表：
  *
+
+ *
  *
  * @author zhoujialiang9
  * @date 2022/6/20 15:45
+ *
+ * @see ArrayList
+ * @see LinkedList
+ * @see java.util.concurrent.CopyOnWriteArrayList
+ * @see Vector
+ * @see Stack
  **/
 @Slf4j
 @SpringBootTest
@@ -43,10 +87,12 @@ public class ListTest {
         extraInfoFuncPoint.add(null);
         extraInfoFuncPoint.add(null);
 
-        List<String> list2 = null;
-        extraInfoFuncPoint.addAll(list2);
+        // 线程安全处理
+        Collections.synchronizedList(extraInfoFuncPoint);
 
         log.info("list={}，size={}", JSON.toJSONString(extraInfoFuncPoint), extraInfoFuncPoint.size());
+
+
     }
 
     /**
@@ -202,53 +248,6 @@ public class ListTest {
         log.info("pop data={}", stringStack.pop());
 
         log.info("Stack ={}", JSON.toJSONString(stringStack));
-    }
-
-    /**
-     * String
-     * @see StringBuilder
-     * @see StringBuffer
-     *
-     */
-    @Test
-    public void test7(){
-        String str = "abcABC中国";
-
-        // 英文占1个字节。中文占3个字节。
-        byte[] bytes = str.getBytes(StandardCharsets.UTF_8);
-        log.info("str={}, byte len={}", str, bytes.length);
-
-        // Unicode 码点
-        log.info("码点个数：{} ，字符串长度：{}", str.codePoints().peek(i-> log.info("{}", i)).count(), str.length());
-
-        char[] chars = str.toCharArray();
-        Stream.of(chars).peek(i -> {
-            log.info("{} {}", i, i.getClass().getCanonicalName());
-        }).forEach(i->{
-            log.info("element={} type={}", i, i.getClass().getCanonicalName());
-        });
-
-        // intern方法
-        String str2 = new String("abcABC") + "中国";
-        log.info("{}", str == str2);
-        log.info("{}", str.equals(str2));
-        log.info("{}", str.intern() == str2.intern());
-
-    }
-
-    @Test
-    public void test8(){
-        List<String> stringList = new ArrayList<>();
-
-        log.info("{}", stringList.stream().limit(1).collect(Collectors.toList()));
-
-        stringList.add("a");
-        stringList.add("b");
-        stringList.add("c");
-
-        log.info("{}", stringList.stream().limit(1).collect(Collectors.toList()));
-        log.info("{}", stringList.stream().limit(2).collect(Collectors.toList()));
-
     }
 
 

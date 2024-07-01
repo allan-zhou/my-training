@@ -1,24 +1,10 @@
 package me.example.training.basic;
 
-import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.util.NumberUtil;
-import cn.hutool.json.JSONUtil;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
-import me.example.training.domain.Student;
-import me.example.training.domain.TestUser;
-import me.example.training.domain.User;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.MapUtils;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  *
@@ -26,7 +12,6 @@ import java.util.stream.Stream;
  * @see java.util.HashMap
  * @see java.util.LinkedHashMap
  * @see java.util.TreeMap
- *
  *
  *
  * @author zhoujialiang9
@@ -40,16 +25,37 @@ public class MapTest {
 
     @Test
     public void test1(){
+        Set<String> stringSet = new HashSet<>();
+        Map<String, String> stringMap = new HashMap<>();
+
+        stringMap.entrySet().forEach(item ->  {
+
+        });
+
+        log.info("{},{}", stringSet.hashCode(), stringMap.hashCode());
     }
 
     @Test
     public void test2(){
-        log.info("tableSizeFor(0) = {}", tableSizeFor(0));
+        LinkedHashMap<String,String> map = new LinkedHashMap(16, 0.75f, true);
+        map.put("abc", "abc");
+        map.put("apple", "a");
+        map.put("xiaomi", "a");
+        map.put("hello", "a");
 
-        log.info("tableSizeFor(4) = {}", tableSizeFor(10));
-        log.info("tableSizeFor(4) = {}", tableSizeFor(15));
-        log.info("tableSizeFor(4) = {}", tableSizeFor(16));
-    }
+        map.forEach((key, value) -> {
+            log.info("key={}, value={}, hashCode={}", key, value, map.hashCode());
+        });
+
+        map.get("apple");
+
+        log.info("---------------");
+
+        map.forEach((key, value) -> {
+            log.info("key={}, value={}, hashCode={}", key, value, map.hashCode());
+        });
+
+     }
 
     /**
      * 找到大于等于cap的最小的2次幂值
