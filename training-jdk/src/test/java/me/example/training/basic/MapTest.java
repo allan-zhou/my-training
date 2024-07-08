@@ -7,10 +7,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.*;
 
 /**
+ * ----------------------------------------------------------------------------------------------------
+ * --- LinkedHashMap，可以做LRU（Least Recently Used，最近最少使用） Cache。
+ * 构造函数 LinkedHashMap(int initialCapacity, float loadFactor, boolean accessOrder)的第三个参数 accessOrder 设置为 true
+ *
+ *
  *
  *
  * @see java.util.HashMap
- * @see java.util.LinkedHashMap
+ * @see java.util.LinkedHashMap，可以做LRU Cache，比如：Druid中PrepareStatement的cache
  * @see java.util.TreeMap
  *
  *

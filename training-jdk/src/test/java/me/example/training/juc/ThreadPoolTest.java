@@ -8,13 +8,26 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.concurrent.*;
 
 /**
+ * ----------------------------------------------------------------------------------------------------
+ * 数据库连接池：性能、稳定、监控、管理。
+ * Druid连接池文档：https://github.com/alibaba/druid/wiki/Druid%E8%BF%9E%E6%8E%A5%E6%B1%A0%E4%BB%8B%E7%BB%8D
+ * Druid连接池的性能关键，是LRUCache的运用，缓存了PrepareStatement。LRUCache继承了LinkedHashMap，构造函数accessOrder为true，重写了removeEldestEntry方法
+ *
+ * ----------------------------------------------------------------------------------------------------
+ * java线程池：管理（规范化）、安全（稳定性）、开发效率、并发性能
+ *
+ *
+ * ----------------------------------------------------------------------------------------------------
+ *
+ *
+ *
+ *
+ * 为什么需要线程池？
+ * 如何创建一个线程池？线程池有哪些种类？
+ * 线程池的核心参数有哪些？
+ * 线程池的实现原理，如何实现？
  *
  * @see ThreadPoolExecutor
- *
- * A、为什么需要线程池？
- * B、如何创建一个线程池？线程池有哪些种类？
- * C、线程池的核心参数有哪些？
- * D、线程池的实现原理，如何实现？
  *
  * @description:
  * @author: zhoujialiang9
